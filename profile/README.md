@@ -107,7 +107,7 @@ ln.payments().create(
 
 ---
 
-### `0x03` WHY LNBOT
+### `0x03` WHY LN.BOT
 
 - **Built for agents** — Programmatic wallets, API keys, and idempotent payments designed for autonomous software.
 - **Instant settlement** — Payments arrive in seconds, not days.
