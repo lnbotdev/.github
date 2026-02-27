@@ -23,22 +23,33 @@ Lightning wallet with CLI, MCP, and API — ready in seconds.
 **CLI** — pipe it, script it, cron it
 
 ```shell
-$ lnbot pay lnbc1...f3q
-→ ✓ paid 1,000 sats (fee: 2 sat, 180ms)
+$ lnbot pay alice@ln.bot --amount 1000
+✓ Sent! Settled instantly
+  amount:  1,000 sats
+  balance: 46,500 sats
 ```
 
 **MCP** — give any AI model a Lightning wallet
 
 ```json
-{"tool": "lightning_pay", "amount": 1000}
-→ {"status": "paid", "fee": 2, "ms": 180}
+{
+  "mcpServers": {
+    "lnbot": {
+      "type": "url",
+      "url": "https://api.ln.bot/mcp",
+      "headers": { "Authorization": "Bearer key_..." }
+    }
+  }
+}
 ```
 
 **REST API** — standard HTTP from any language
 
 ```
-POST /v1/payments {"bolt11": "lnbc1..."}
-→ 200 {"paid": true, "amount": 1000, "fee": 2}
+POST /v1/payments
+{ "target": "alice@ln.bot", "amount": 1000 }
+
+→ 200 { "number": 1, "status": "settled", "amount": 1000, "actualFee": 0 }
 ```
 
 ---
@@ -124,16 +135,34 @@ ln.payments().create(
 
 ### `0x05` GET STARTED
 
+**Install the CLI:**
+
 ```shell
-$ npm install @lnbot/sdk     # or: pip install lnbot / go get github.com/lnbotdev/go-sdk
-$ lnbot init --network mainnet
-$ lnbot serve
+curl -fsSL https://ln.bot/install.sh | bash
+```
+
+**Create a wallet and start using it:**
+
+```shell
+lnbot init
+lnbot wallet create --name agent01
+lnbot invoice create --amount 1000 --memo "first payment"
+lnbot balance
+```
+
+**Or use an SDK:**
+
+```shell
+npm install @lnbot/sdk     # TypeScript
+pip install lnbot           # Python
+go get github.com/lnbotdev/go-sdk  # Go
+cargo add lnbot             # Rust
 ```
 
 Your AI agent now has access to Bitcoin. ⚡
 
 ---
 
-[ln.bot](https://ln.bot) · [Docs](https://ln.bot/docs) · [TypeScript](https://github.com/lnbotdev/typescript-sdk) · [Python](https://github.com/lnbotdev/python-sdk) · [Go](https://github.com/lnbotdev/go-sdk) · [Rust](https://github.com/lnbotdev/rust-sdk)
+[ln.bot](https://ln.bot) · [Docs](https://ln.bot/docs) · [CLI](https://github.com/lnbotdev/cli) · [TypeScript](https://github.com/lnbotdev/typescript-sdk) · [Python](https://github.com/lnbotdev/python-sdk) · [Go](https://github.com/lnbotdev/go-sdk) · [Rust](https://github.com/lnbotdev/rust-sdk)
 
 MIT License
