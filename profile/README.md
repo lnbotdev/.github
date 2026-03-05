@@ -37,7 +37,7 @@ $ lnbot pay alice@ln.bot --amount 1000
     "lnbot": {
       "type": "url",
       "url": "https://api.ln.bot/mcp",
-      "headers": { "Authorization": "Bearer key_..." }
+      "headers": { "Authorization": "Bearer uk_..." }
     }
   }
 }
@@ -46,7 +46,7 @@ $ lnbot pay alice@ln.bot --amount 1000
 **REST API** — standard HTTP from any language
 
 ```
-POST /v1/payments
+POST /v1/wallets/wal_.../payments
 { "target": "alice@ln.bot", "amount": 1000 }
 
 → 200 { "number": 1, "status": "settled", "amount": 1000, "actualFee": 0 }
@@ -63,8 +63,9 @@ POST /v1/payments
 ```ts
 import { LnBot } from "@lnbot/sdk"
 
-const ln = new LnBot({ apiKey: "key_..." })
-await ln.payments.create({ target: "alice@ln.bot", amount: 1000 })
+const ln = new LnBot({ apiKey: "uk_..." })
+const w = ln.wallet("wal_...")
+await w.payments.create({ target: "alice@ln.bot", amount: 1000 })
 ```
 
 [`typescript-sdk →`](https://github.com/lnbotdev/typescript-sdk)
@@ -74,8 +75,9 @@ await ln.payments.create({ target: "alice@ln.bot", amount: 1000 })
 ```python
 from lnbot import LnBot
 
-ln = LnBot(api_key="key_...")
-ln.payments.create(target="alice@ln.bot", amount=1000)
+ln = LnBot(api_key="uk_...")
+w = ln.wallet("wal_...")
+w.payments.create(target="alice@ln.bot", amount=1000)
 ```
 
 [`python-sdk →`](https://github.com/lnbotdev/python-sdk)
@@ -83,9 +85,10 @@ ln.payments.create(target="alice@ln.bot", amount=1000)
 #### Go &ensp; [![Go](https://img.shields.io/github/go-mod/go-version/lnbotdev/go-sdk?style=flat-square&color=00ff41&label=go)](https://pkg.go.dev/github.com/lnbotdev/go-sdk)
 
 ```go
-client := lnbot.New("key_...")
+client := lnbot.New("uk_...")
+w := client.Wallet("wal_...")
 
-client.Payments.Create(ctx, &lnbot.CreatePaymentParams{
+w.Payments.Create(ctx, &lnbot.CreatePaymentParams{
     Target: "alice@ln.bot",
     Amount: lnbot.Ptr(int64(1000)),
 })
@@ -96,14 +99,26 @@ client.Payments.Create(ctx, &lnbot.CreatePaymentParams{
 #### Rust &ensp; [![crates.io](https://img.shields.io/crates/v/lnbot?style=flat-square&color=00ff41&label=crates.io)](https://crates.io/crates/lnbot)
 
 ```rust
-let ln = LnBot::new("key_...");
+let client = LnBot::new("uk_...");
+let w = client.wallet("wal_...");
 
-ln.payments().create(
-    CreatePaymentParams::new().target("alice@ln.bot").amount(1000),
+w.payments().create(
+    &CreatePaymentRequest::new("alice@ln.bot").amount(1000),
 ).await?;
 ```
 
 [`rust-sdk →`](https://github.com/lnbotdev/rust-sdk)
+
+#### C# &ensp; [![NuGet](https://img.shields.io/nuget/v/LnBot?style=flat-square&color=00ff41&label=nuget)](https://www.nuget.org/packages/LnBot)
+
+```csharp
+var client = new LnBotClient("uk_...");
+var w = client.Wallet("wal_...");
+
+await w.Payments.CreateAsync(new() { Target = "alice@ln.bot", Amount = 1000 });
+```
+
+[`csharp-sdk →`](https://github.com/lnbotdev/csharp-sdk)
 
 ---
 
@@ -153,16 +168,17 @@ lnbot balance
 **Or use an SDK:**
 
 ```shell
-npm install @lnbot/sdk     # TypeScript
-pip install lnbot           # Python
-go get github.com/lnbotdev/go-sdk  # Go
-cargo add lnbot             # Rust
+npm install @lnbot/sdk              # TypeScript
+pip install lnbot                    # Python
+go get github.com/lnbotdev/go-sdk   # Go
+cargo add lnbot                      # Rust
+dotnet add package LnBot             # C#
 ```
 
 Your AI agent now has access to Bitcoin. ⚡
 
 ---
 
-[ln.bot](https://ln.bot) · [Docs](https://ln.bot/docs) · [CLI](https://github.com/lnbotdev/cli) · [TypeScript](https://github.com/lnbotdev/typescript-sdk) · [Python](https://github.com/lnbotdev/python-sdk) · [Go](https://github.com/lnbotdev/go-sdk) · [Rust](https://github.com/lnbotdev/rust-sdk)
+[ln.bot](https://ln.bot) · [Docs](https://ln.bot/docs) · [CLI](https://github.com/lnbotdev/cli) · [TypeScript](https://github.com/lnbotdev/typescript-sdk) · [Python](https://github.com/lnbotdev/python-sdk) · [Go](https://github.com/lnbotdev/go-sdk) · [Rust](https://github.com/lnbotdev/rust-sdk) · [C#](https://github.com/lnbotdev/csharp-sdk)
 
 MIT License
